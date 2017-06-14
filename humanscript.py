@@ -113,7 +113,7 @@ def ticketcheck(membercode,serial_code_1,serial_code_2):
         elif message.find('入力されたｼﾘｱﾙﾅﾝﾊﾞｰは、既に投票されています。') != -1:
             timestr = re.search(r'\d{4}年\d{2}月\d{2}日\d{2}時\d{2}分\d{2}秒',message).group(0)
             jptime = datetime.datetime.strptime(timestr,'%Y年%m月%d日%H時%M分%S秒')
-            cntime = jptime - datetime.timedelta(days = 1)
+            cntime = jptime - datetime.timedelta(hours = 1)
             result = "pass muster (%s)"%cntime.strftime('%Y-%m-%d %H:%M:%S GMT+8')
             print u"验票成功，投票时间：%s"%(cntime.strftime('%Y年%m月%d日 %H时%M分%S秒').decode("utf-8"))
             print u"后退"

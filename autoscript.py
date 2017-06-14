@@ -92,9 +92,11 @@ def ticketcheck(membercode,serial_code_1,serial_code_2):
             result = "serial number error"
             break
         elif message.find('入力されたｼﾘｱﾙﾅﾝﾊﾞｰは、既に投票されています。') != -1:
+            # timestr = re.search(r'投票日時:\d{4}年\d{2}月\d{2}日\d{2}時\d{2}分\d{2}秒',message).group(0)
+            # result = timestr.decode("utf-8")
             timestr = re.search(r'\d{4}年\d{2}月\d{2}日\d{2}時\d{2}分\d{2}秒',message).group(0)
             jptime = datetime.datetime.strptime(timestr,'%Y年%m月%d日%H時%M分%S秒')
-            cntime = jptime - datetime.timedelta(days = 1)
+            cntime = jptime - datetime.timedelta(hours = 1)
             result = "pass muster (%s)"%cntime.strftime('%Y-%m-%d %H:%M:%S GMT+8')
             break
         elif message.find('入力されたｼﾘｱﾙﾅﾝﾊﾞｰは無効であるか既に投票済みです。') != -1:
