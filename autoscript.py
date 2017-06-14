@@ -21,6 +21,7 @@ def ticketcheck(membercode,serial_code_1,serial_code_2):
     link = "http://akb48-sousenkyo.jp/vote.php?membercode=%s&parent=team&parentkey=%s"%(membercode,teamcode)
     attempt = 0
     result = ""
+    proxy = 0
 
     while True:
 
@@ -94,20 +95,23 @@ def ticketcheck(membercode,serial_code_1,serial_code_2):
             timestr = re.search(r'\d{4}年\d{2}月\d{2}日\d{2}時\d{2}分\d{2}秒',message).group(0)
             jptime = datetime.datetime.strptime(timestr,'%Y年%m月%d日%H時%M分%S秒')
             cntime = jptime - datetime.timedelta(days = 1)
-            if result != "proxy voting":
-                result = "pass muster (%s)"%cntime.strftime('%Y-%m-%d %H:%M:%S GMT+8')
-            else:
-                result = "proxy voting (%s)"%cntime.strftime('%Y-%m-%d %H:%M:%S GMT+8')
+            result = "pass muster (%s)"%cntime.strftime('%Y-%m-%d %H:%M:%S GMT+8')
             break
         elif message.find('入力されたｼﾘｱﾙﾅﾝﾊﾞｰは無効であるか既に投票済みです。') != -1:
             result = "others vote"
             break
         elif message.find('ご投票いただきありがとうございました。') != -1:
             result = "proxy voting"
+            proxy = 1
+            attempt = 1
             continue
         else:
             result = "unknown error (%s)"%message
             break
+
+
+    if proxy == 1:
+        result = result + " (proxy)"
 
     return result
 
