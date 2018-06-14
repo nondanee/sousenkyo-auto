@@ -6,6 +6,7 @@ Created on Sat Jun 02 00:30:22 2018
 """
 
 #import re
+import csv
 import requests
 from bs4 import BeautifulSoup  
 
@@ -48,11 +49,12 @@ def vote(serial1,serial2,vid):
         print(line.get_text().strip())
 
 if __name__ == '__main__':
-    # i26xshyx 736e7fi2 307 瀧野 由美子
-    # iw2hpyyy r6p84bkj 246 宮脇 咲良
-    # 9u2r58yt c9wyaq82 65 馬 嘉伶
-    # xzmpnjyx uf7v98td 60 岡田 奈々
-    vote('xzmpnjyx','uf7v98td',60)
+
+    with open('input.csv') as f:
+        data = list(csv.reader(f))
+        for line in data:
+            vote(line[0],line[1],line[2])
+    
     
 
 
